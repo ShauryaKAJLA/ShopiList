@@ -23,11 +23,6 @@ export const ListSlice = createSlice({
     reducers: {
         storeData: (state, action) => {
             state.allLists = action.payload
-            // state.allLists = action.payload.map(item => {
-            //     let listTotalItems = item.items.length
-            //     let listItemsBought = item.items.filter(it => it.isBought).length
-            //     return { ...item, listItemsBought, listTotalItems }
-            // });
         },
         addNewItem: (state, action) => {
             const ind = state.allLists.findIndex(item => item._id === action.payload.listId)
