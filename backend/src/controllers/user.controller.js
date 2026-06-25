@@ -49,8 +49,11 @@ const userLogin = asyncHandler(async (req, res) => {
     if (!accessToken) {
         throw new ApiError(500, "Error while user login try again shortly")
     }
-
-    return res.status(200).cookie("accessToken", accessToken).json(new ApiResponse({ username, accessToken }, 200, "Successfully logged in"))
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+    return res.status(200).cookie("accessToken", accessToken, options).cookie("isAuthenticated", true, { secure: true }).json(new ApiResponse({ username, accessToken }, 200, "Successfully logged in"))
 })
 
 export { userSignup, userLogin }; 
