@@ -76,7 +76,6 @@ function ShoppingList() {
             }
         }
     }
-    const deleteList = async (listId) => { }
     return (
         <div className="w-screen h-screen  flex flex-col items-center ">
             <div className='py-10 w-[90%] md:w-[65%] '>
