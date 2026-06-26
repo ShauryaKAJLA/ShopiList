@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLoginMutation } from '../../app/api/ApiSlice'
+import { Bounce, toast } from 'react-toastify'
 function Login() {
     console.log(import.meta.env.VITE_SERVER)
     const [user, setUser] = useState({
@@ -13,7 +14,9 @@ function Login() {
     useEffect(() => {
         const isLogged = document.cookie.includes('isAuthenticated=true')
         if (isLogged) {
-            navigate('/lists')
+            setTimeout(() => {
+                navigate('/lists')
+            }, 3000)
         }
 
     })
@@ -24,6 +27,17 @@ function Login() {
         try {
             const response = await login(user).unwrap();
             console.log(response);
+            toast.success(response.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
         } catch (err) {
             console.log(err);
         }

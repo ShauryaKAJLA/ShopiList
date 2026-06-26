@@ -1,11 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Lists from '../../components/Lists/Lists.jsx'
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosAdd } from "react-icons/io";
-import { addNewList } from '../../app/ListSlice/ListSlice.js';
+import { addNewList, storeData } from '../../app/ListSlice/ListSlice.js';
+import { useAddNewListMutation, useGetAllListsQuery } from '../../app/api/ApiSlice.js';
+import { useNavigate } from 'react-router-dom';
+import { Bounce, toast } from 'react-toastify';
 
 function ShoppingList() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { data: dataLists, error: errorLists, isError: isErrorLists, isLoading: isLoadingLists } = useGetAllListsQuery();
+    const [addNewListCall, { isLoading, isError, error }] = useAddNewListMutation();
+    useEffect(() => {
+        const isLogged = document.cookie.includes('isAuthenticated=true')
+        if (!isLogged) {
+            setTimeout(() => {
+                navigate('/')
+            }, 3000)
+        }
+        dispatch(storeData(dataLists?.data))
+        console.log(dataLists)
+        if (isErrorLists) {
+            console.log(errorLists)
+        }
+    }, [dataLists, errorLists, isErrorLists])
     const allLists = useSelector(state => state.Lists.allLists)
     const [isaddNew, setisAddNew] = useState(true);
     const [colors, setColors] = useState([
@@ -18,12 +37,45 @@ function ShoppingList() {
     const triggerListColorChange = (colors) => {
         setNewList({ ...newList, colors: colors })
     }
-    const addNew = () => {
+    const addNew = async () => {
         if (newList.listName !== "") {
-            dispatch(addNewList(newList))
+            try {
+                const response = await addNewListCall(newList).unwrap();
+                console.log(response)
+                if (response) {
+                    dispatch(addNewList(response.data))
+                    toast.error(response.message, {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
+                    });
+                    setNewList({ listName: "", colors: "#FF4757" });
+                    setisAddNew(true);
+                }
+            } catch (err) {
+                if (isError) {
+                    console.log(error)
+                    toast.error(error.message, {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
+                    });
+                }
+            }
         }
     }
-    console.log(allLists)
     return (
         <div className="w-screen h-screen  flex flex-col items-center ">
             <div className='py-10 w-[90%] md:w-[65%] '>
@@ -47,7 +99,7 @@ function ShoppingList() {
                             {colors.map(item => <div onClick={() => triggerListColorChange(item)} style={{ backgroundColor: item, border: `${newList.colors == item ? "2px solid black" : ""}`, }} className='w-5 h-5 rounded-full hover:scale-110 transition-all'></div>)}
                         </div>
                         <div className='flex justify-between' >
-                            <button onClick={() => addNew()} style={{ backgroundColor: newList.colors }} className=' rounded-3xl text-white w-[60%] py-2'>
+                            <button onClick={async () => await addNew()} style={{ backgroundColor: newList.colors }} className=' rounded-3xl text-white w-[60%] py-2'>
                                 create
                             </button>
                             <button onClick={() => setisAddNew(true)} className='hover:cursor-pointer text-neutral-500 text-xs font-semibold rounded-3xl hover:bg-gray-100 w-[30%] py-2'>

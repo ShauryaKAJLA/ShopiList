@@ -1,5 +1,4 @@
 import { createSlice, current } from '@reduxjs/toolkit'
-import { v4 as uuid } from 'uuid'
 // {
 //     _id,
 //     listName,
@@ -43,11 +42,11 @@ export const ListSlice = createSlice({
         },
         addNewList: (state, action) => {
             const newItem = {
-                _id: uuid(),
+                _id: action.payload._id,
                 listName: action.payload.listName,
                 listTotalItems: 0,
                 listItemsBought: 0,
-                color: action.payload.colors,
+                color: action.payload.color,
                 items: []
             }
             state.allLists.push(newItem);
