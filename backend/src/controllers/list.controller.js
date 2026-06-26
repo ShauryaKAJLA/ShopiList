@@ -8,6 +8,8 @@ import { User } from "../models/user.model.js";
 
 const createNewList = asyncHandler(async (req, res) => {
     const { newList } = req.body;
+    console.log(newList)
+    console.log(req.user)
     if (!newList) {
         throw new ApiError(400, "Data for new list is required")
     }
@@ -17,11 +19,11 @@ const createNewList = asyncHandler(async (req, res) => {
     }
     const listTotalItems = newList.listTotalItems || 0;
     const listItemsBought = newList.listTotalItems || 0;
-    const color = newList.color || "#F68A3C";
+    const color = newList.colors || "#F68A3C";
     const items = [];
 
     const newListFet = await List.create({
-        createdBy: new mongoose.Schema.Types.ObjectId(req.user?._id),
+        createdBy: req.user?._id,
         listName,
         listTotalItems,
         listItemsBought,
@@ -98,9 +100,10 @@ const getAllListItems = asyncHandler(async (req, res) => {
     allLists = allLists.map(list => {
         const listTotalItems = list.items.length
         const listItemsBought = list.items.filter(item => item.isBought).length
-        return { ...list, listTotalItems, listItemsBought }
+        return ({ ...list.toObject(), listTotalItems, listItemsBought })
     })
-    return res.status(200).json(new ApiResponse(allLists, 200, "Successfully returned all lists"))
+
+    return res.status(200).json(new ApiResponse(allLists || [], 200, "Successfully returned all lists"))
 })
 const setListItemBoughtStatus = asyncHandler(async (req, res) => {
     const { _id, index, isBought } = req.body;

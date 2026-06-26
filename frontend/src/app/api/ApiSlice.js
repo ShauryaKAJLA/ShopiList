@@ -6,7 +6,7 @@ export const ApiSlice = createApi({
     endpoints: ((builder) => ({
         getAllLists: builder.query({
             query: () => ({
-                url: "/tasks",
+                url: "/list/getAllLists",
                 method: "GET",
                 credentials: "include",
 
@@ -27,8 +27,25 @@ export const ApiSlice = createApi({
                 credentials: "include",
                 body: data
             })
+        }),
+        addNewList: builder.mutation({
+            query: (data) => ({
+                url: "/list/createNewList",
+                method: "POST",
+                credentials: "include",
+                body: { newList: data }
+            })
+        }),
+        deleteList: builder.mutation({
+            query: (data) => ({
+                url: "/list/deleteList",
+                method: "POST",
+                credentials: "include",
+                body: data
+            })
         })
+
     }))
 })
 
-export const { useGetAllListsQuery, useLoginMutation, useSingupMutation } = ApiSlice
+export const { useGetAllListsQuery, useLoginMutation, useSingupMutation, useAddNewListMutation } = ApiSlice
