@@ -9,19 +9,21 @@ function App() {
   const { data: dataLists, error: errorLists, isError: isErrorLists, isLoading: isLoadingLists } = useGetAllListsQuery();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLogged = document.cookie.includes('isAuthenticated=true')
   useEffect(() => {
+    const isLogged = document.cookie.includes('isAuthenticated=true')
     if (!isLogged) {
       setTimeout(() => {
         navigate('/')
       })
     }
+  }, [])
+  useEffect(() => {
     dispatch(storeData(dataLists?.data))
     console.log(dataLists)
     if (isErrorLists) {
       console.log(errorLists)
     }
-  }, [dataLists, errorLists, isErrorLists, isLogged])
+  }, [dataLists, errorLists, isErrorLists])
   return (
     <div className='w-screen h-screen overflow-x-hidden bg-[#F7F6F2] font-sans'>
       <Navbar />
