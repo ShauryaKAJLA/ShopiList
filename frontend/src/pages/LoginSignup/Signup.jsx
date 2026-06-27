@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useSingupMutation } from '../../app/api/apiSlice.js';
+import { useSingupMutation } from '../../app/api/ApiSlice.js';
 import { Bounce, toast } from 'react-toastify';
 
 function Signup() {
