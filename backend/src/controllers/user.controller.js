@@ -50,11 +50,29 @@ const userLogin = asyncHandler(async (req, res) => {
     }
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: 'None',
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     }
-    return res.status(200).cookie("accessToken", accessToken, options).cookie("isAuthenticated", true, { secure: true }).json(new ApiResponse({ username, accessToken }, 200, "Successfully logged in"))
+    const options2 = {
+        secure: true,
+        sameSite: 'None',
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    }
+    return res.status(200).cookie("accessToken", accessToken, options).cookie("isAuthenticated", true, options2).json(new ApiResponse({ username, accessToken }, 200, "Successfully logged in"))
 })
 const userLogout = asyncHandler(async (req, res) => {
-    return res.status(200).clearCookie("accessToken").clearCookie("isAuthenticated").json(new ApiResponse({}, 200, "Successfully logged out"))
+    const options = {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    }
+    const options2 = {
+        secure: true,
+        sameSite: 'None',
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    }
+    return res.status(200).clearCookie("accessToken", options).clearCookie("isAuthenticated", options2).json(new ApiResponse({}, 200, "Successfully logged out"))
 })
 export { userSignup, userLogin, userLogout }; 
