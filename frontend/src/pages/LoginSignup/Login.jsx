@@ -12,7 +12,7 @@ function Login() {
     })
     const navigate = useNavigate()
     useEffect(() => {
-        const isLogged = document.cookie.includes('isAuthenticated=true')
+        const isLogged = localStorage.getItem("isAuthenticated") === true
         if (isLogged) {
             setTimeout(() => {
                 navigate('/lists')
@@ -26,6 +26,8 @@ function Login() {
         if (user.username === "" || user.password === "") return;
         try {
             const response = await login(user).unwrap();
+            // after successful login API call
+            localStorage.setItem('isAuthenticated', 'true');
             console.log(response);
             toast.success(response.message, {
                 position: "top-right",

@@ -10,7 +10,8 @@ function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    const isLogged = document.cookie.includes('isAuthenticated=true')
+
+    const isLogged = localStorage.getItem("isAuthenticated") === true
     if (!isLogged) {
       setTimeout(() => {
         navigate('/')

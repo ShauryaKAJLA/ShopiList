@@ -41,7 +41,7 @@ function Navbar() {
         }
     }
     const handleNavi = () => {
-        if (document.cookie.includes('isAuthenticated=true'))
+        if (localStorage.getItem("isAuthenticated") === true)
             navigate('/')
     }
     return (
