@@ -8,8 +8,6 @@ import { User } from "../models/user.model.js";
 
 const createNewList = asyncHandler(async (req, res) => {
     const { newList } = req.body;
-    console.log(newList)
-    console.log(req.user)
     if (!newList) {
         throw new ApiError(400, "Data for new list is required")
     }
@@ -64,7 +62,6 @@ const updateListName = asyncHandler(async (req, res) => {
 
 const addNewListItem = asyncHandler(async (req, res) => {
     const { _id, listItem } = req.body;
-    console.log(req.body)
     if (!_id || !listItem) {
         throw new ApiError(400, "list id and new list item is required")
     }

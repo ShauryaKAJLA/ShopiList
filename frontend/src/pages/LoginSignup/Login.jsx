@@ -38,6 +38,7 @@ function Login() {
                 theme: "dark",
                 transition: Bounce,
             });
+            navigate('/lists')
         } catch (err) {
             console.log(err);
         }

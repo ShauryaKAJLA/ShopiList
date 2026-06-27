@@ -103,7 +103,7 @@ function ListInfo() {
             </div>
             {(list?.filter(item => item.isBought).length) ? <div className="relative flex py-5  w-[90%] items-center">
                 <div className="grow border-t border-gray-300"></div>
-                <span className="shrink mx-4 text-gray-400 text-sm font-sans">Done (1)</span>
+                <span className="shrink mx-4 text-gray-400 text-sm font-sans">Done ({data.listItemsBought})</span>
                 <div className="grow border-t border-gray-300"></div>
             </div> : <></>}
             <div className='flex flex-col gap-3 w-[90%]'>

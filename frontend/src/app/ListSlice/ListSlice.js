@@ -54,10 +54,13 @@ export const ListSlice = createSlice({
         },
         deleteList: (state, action) => {
             state.allLists = state.allLists.filter(item => item._id !== action.payload.listId)
+        },
+        clearAllLists: (state) => {
+            state.allLists = null;
         }
     }
 })
 
 
-export const { storeData, addNewItem, removeItem, itemToggle, addNewList, deleteList } = ListSlice.actions;
+export const { storeData, addNewItem, removeItem, itemToggle, addNewList, deleteList, clearAllLists } = ListSlice.actions;
 export default ListSlice.reducer

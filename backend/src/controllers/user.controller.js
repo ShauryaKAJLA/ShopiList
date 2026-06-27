@@ -7,7 +7,6 @@ import { asyncHandler } from "../utils/AsyncHandler.util.js";
 
 
 const userSignup = asyncHandler(async (req, res) => {
-    console.log(req.body)
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -55,5 +54,7 @@ const userLogin = asyncHandler(async (req, res) => {
     }
     return res.status(200).cookie("accessToken", accessToken, options).cookie("isAuthenticated", true, { secure: true }).json(new ApiResponse({ username, accessToken }, 200, "Successfully logged in"))
 })
-
-export { userSignup, userLogin }; 
+const userLogout = asyncHandler(async (req, res) => {
+    return res.status(200).clearCookie("accessToken").clearCookie("isAuthenticated").json(new ApiResponse({}, 200, "Successfully logged out"))
+})
+export { userSignup, userLogin, userLogout }; 

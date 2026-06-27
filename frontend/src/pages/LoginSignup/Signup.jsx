@@ -1,7 +1,8 @@
 import React from 'react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSingupMutation } from '../../app/api/apiSlice';
+import { Bounce, toast } from 'react-toastify';
 
 function Signup() {
     const [user, setUser] = useState({
@@ -9,14 +10,36 @@ function Signup() {
         password: "",
     })
     const [login, { isLoading, isError, error }] = useSingupMutation();
-
+    const navigate = useNavigate()
     const handleSignup = async () => {
         if (user.username === "" || user.password === "") return;
         try {
             const response = await login(user).unwrap();
-            console.log(response);
+            toast.success(response.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+            navigate('/')
         } catch (err) {
-            console.log(err);
+            toast.error(err.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
         }
     };
     return (

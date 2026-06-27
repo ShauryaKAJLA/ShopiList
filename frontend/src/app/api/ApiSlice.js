@@ -3,14 +3,15 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 export const ApiSlice = createApi({
     reducerPath: "callApi",
     baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_SERVER }),
+    tagTypes: ["Lists"],
     endpoints: ((builder) => ({
         getAllLists: builder.query({
             query: () => ({
                 url: "/list/getAllLists",
                 method: "GET",
                 credentials: "include",
-
-            })
+            }),
+            providesTags: ["Lists"]
         }),
         login: builder.mutation({
             query: (data) => ({
@@ -18,7 +19,8 @@ export const ApiSlice = createApi({
                 method: "POST",
                 credentials: "include",
                 body: data
-            })
+            }),
+            invalidatesTags: ["Lists"]
         }),
         singup: builder.mutation({
             query: (data) => ({
@@ -67,8 +69,16 @@ export const ApiSlice = createApi({
                 credentials: "include",
                 body: data
             })
+        }),
+        logout: builder.mutation({
+            query: (data) => ({
+                url: "/user/logout",
+                method: "POST",
+                credentials: "include",
+                body: data
+            })
         })
     }))
 })
 
-export const { useGetAllListsQuery, useLoginMutation, useSingupMutation, useAddNewListMutation, useDeleteListMutation, useAddNewListItemMutation, useRemoveListItemMutation, useToggleIsBoughtMutation } = ApiSlice
+export const { useGetAllListsQuery, useLoginMutation, useSingupMutation, useAddNewListMutation, useDeleteListMutation, useAddNewListItemMutation, useRemoveListItemMutation, useToggleIsBoughtMutation, useLogoutMutation } = ApiSlice
