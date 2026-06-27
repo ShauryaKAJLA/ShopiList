@@ -30,9 +30,10 @@ export const ListSlice = createSlice({
         },
         removeItem: (state, action) => {
             const ind = state.allLists.findIndex(item => item._id === action.payload.listId)
+            const isBought = state.allLists[ind].items[action.payload.itemId].isBought;
             state.allLists[ind].items = state.allLists[ind].items.filter((_, index) => index != action.payload.itemId)
             state.allLists[ind].listTotalItems--;
-            if (action.payload.isBought)
+            if (isBought)
                 state.allLists[ind].listItemsBought--;
         },
         itemToggle: (state, action) => {

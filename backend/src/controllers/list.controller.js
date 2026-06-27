@@ -42,8 +42,8 @@ const deleteList = asyncHandler(async (req, res) => {
     if (!_id) {
         throw new ApiError(400, "Id is required")
     }
-    const deletedList = await List.findByIdAndDelete(new mongoose.Schema.Types.ObjectId(_id));
-    if (!deleteList) {
+    const deletedList = await List.findByIdAndDelete(_id);
+    if (!deletedList) {
         throw new ApiError(400, "No List found with this id")
     }
     return res.status(200).json(new ApiResponse(deletedList, 200, "List deleted successfully"))
@@ -64,13 +64,14 @@ const updateListName = asyncHandler(async (req, res) => {
 
 const addNewListItem = asyncHandler(async (req, res) => {
     const { _id, listItem } = req.body;
+    console.log(req.body)
     if (!_id || !listItem) {
         throw new ApiError(400, "list id and new list item is required")
     }
-    if (!listItem?.name || !listItem?.quantity || !listItem?.isBought) {
+    if (!listItem?.name || !listItem?.quantity || listItem?.isBought === undefined) {
         throw new ApiError(400, "New list Item data is not complete")
     }
-    const list = await List.findById(new mongoose.Schema.Types.ObjectId(_id))
+    const list = await List.findById(_id)
     if (!list) {
         throw new ApiError(500, "Unable to find list with given id")
     }
@@ -81,16 +82,16 @@ const addNewListItem = asyncHandler(async (req, res) => {
 
 const removeListItem = asyncHandler(async (req, res) => {
     const { _id, index } = req.body;
-    if (!_id || !index) {
+    if (!_id || index === undefined) {
         throw new ApiError(400, "list id and index is required")
     }
-    const list = await List.findById(new mongoose.Schema.Types.ObjectId(_id))
+    const list = await List.findById(_id)
     if (!list) {
         throw new ApiError(500, "Unable to find list with given id")
     }
     list.items = list.items.filter((_, ind) => ind !== index)
     await list.save({ validateBeforeSave: false });
-    return res.status(200).json(new ApiResponse(listItem, 200, "Updated list removed list item"))
+    return res.status(200).json(new ApiResponse(list, 200, "Updated list removed list item"))
 })
 
 
@@ -106,17 +107,17 @@ const getAllListItems = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(allLists || [], 200, "Successfully returned all lists"))
 })
 const setListItemBoughtStatus = asyncHandler(async (req, res) => {
-    const { _id, index, isBought } = req.body;
-    if (!_id || !index || isBought === undefined) {
-        throw new ApiError(400, "list id, index and isBought status is required")
+    const { _id, index } = req.body;
+    if (!_id || index === undefined) {
+        throw new ApiError(400, "list id, index is required")
     }
-    const List = await List.findById(new mongoose.Schema.Types.ObjectId(_id))
-    if (!List) {
+    const list = await List.findById(_id)
+    if (!list) {
         throw new ApiError(500, "Unable to find list with given id")
     }
-    List.items[index].isBought = isBought
-    await List.save({ validateBeforeSave: false });
-    return res.status(200).json(new ApiResponse(List.items[index], 200, "Updated list item bought status"))
+    list.items[index].isBought = !list.items[index].isBought
+    await list.save({ validateBeforeSave: false });
+    return res.status(200).json(new ApiResponse(list.items[index], 200, "Updated list item bought status"))
 })
 
 export { createNewList, deleteList, updateListName, addNewListItem, removeListItem, getAllListItems, setListItemBoughtStatus }

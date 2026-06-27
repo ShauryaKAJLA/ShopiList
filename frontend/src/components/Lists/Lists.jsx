@@ -3,15 +3,48 @@ import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineDelete } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { deleteList } from "../../app/ListSlice/ListSlice";
+import { useDeleteListMutation } from "../../app/api/ApiSlice";
+import { Bounce, toast } from "react-toastify";
 
 function Lists({ data }) {
     let complete = parseInt((data.listItemsBought / data.listTotalItems) * 100) + '%';
+    const [deleteListApi, { isError, isLoading, error }] = useDeleteListMutation();
     console.log(data);
     const dispatch = useDispatch();
-    const triggerDelete = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        dispatch(deleteList({ listId: data._id }))
+    const triggerDelete = async (e) => {
+        try {
+
+            e.preventDefault();
+            e.stopPropagation();
+            const response = await deleteListApi({ _id: data._id }).unwrap();
+            if (response) {
+                dispatch(deleteList({ listId: data._id }))
+                toast.success(response.message, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+            }
+        }
+        catch (error) {
+            toast.error(err.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+        }
     }
     return (
         <Link to={`/list/${data._id}`}>
@@ -24,7 +57,7 @@ function Lists({ data }) {
                             <div className="font-bold text-xl">{data.listName}</div>
                             <div className="text-xs  font-mono font-extrabold text-olive-400">{data.listTotalItems - data.listItemsBought} items left</div>
                         </div>
-                        <div onClick={(e) => triggerDelete(e)} className="opacity-0  z-50 hover:text-red-600  bg-gray-300 p-2 rounded-full transition-opacity group-hover:opacity-40">
+                        <div onClick={async (e) => await triggerDelete(e)} className="sm:opacity-0  z-50 hover:text-red-600  bg-gray-300 p-2 rounded-full transition-opacity group-hover:opacity-40">
                             <MdOutlineDelete />
                         </div>
                     </div>

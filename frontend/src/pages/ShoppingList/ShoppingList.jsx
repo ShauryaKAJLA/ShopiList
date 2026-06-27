@@ -10,21 +10,8 @@ import { Bounce, toast } from 'react-toastify';
 function ShoppingList() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { data: dataLists, error: errorLists, isError: isErrorLists, isLoading: isLoadingLists } = useGetAllListsQuery();
     const [addNewListCall, { isLoading, isError, error }] = useAddNewListMutation();
-    useEffect(() => {
-        const isLogged = document.cookie.includes('isAuthenticated=true')
-        if (!isLogged) {
-            setTimeout(() => {
-                navigate('/')
-            }, 3000)
-        }
-        dispatch(storeData(dataLists?.data))
-        console.log(dataLists)
-        if (isErrorLists) {
-            console.log(errorLists)
-        }
-    }, [dataLists, errorLists, isErrorLists])
+
     const allLists = useSelector(state => state.Lists.allLists)
     const [isaddNew, setisAddNew] = useState(true);
     const [colors, setColors] = useState([
@@ -44,7 +31,7 @@ function ShoppingList() {
                 console.log(response)
                 if (response) {
                     dispatch(addNewList(response.data))
-                    toast.error(response.message, {
+                    toast.success(response.message, {
                         position: "top-right",
                         autoClose: 3000,
                         hideProgressBar: false,
@@ -75,9 +62,6 @@ function ShoppingList() {
                 }
             }
         }
-    }
-    const deleteList = async () => {
-
     }
     return (
         <div className="w-screen h-screen  flex flex-col items-center ">

@@ -43,9 +43,32 @@ export const ApiSlice = createApi({
                 credentials: "include",
                 body: data
             })
+        }),
+        addNewListItem: builder.mutation({
+            query: (data) => ({
+                url: "/list/addNewListItem",
+                method: "POST",
+                credentials: "include",
+                body: data
+            })
+        }),
+        removeListItem: builder.mutation({
+            query: (data) => ({
+                url: "/list/removeListItem",
+                method: "POST",
+                credentials: "include",
+                body: data
+            })
+        }),
+        toggleIsBought: builder.mutation({
+            query: (data) => ({
+                url: "/list/setListItemBoughtStatus",
+                method: "PUT",
+                credentials: "include",
+                body: data
+            })
         })
-
     }))
 })
 
-export const { useGetAllListsQuery, useLoginMutation, useSingupMutation, useAddNewListMutation } = ApiSlice
+export const { useGetAllListsQuery, useLoginMutation, useSingupMutation, useAddNewListMutation, useDeleteListMutation, useAddNewListItemMutation, useRemoveListItemMutation, useToggleIsBoughtMutation } = ApiSlice
