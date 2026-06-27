@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import ListItem from '../../components/ListItem/ListItem';
+import ListItem from '../../components/ListItem/ListItem.jsx';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { IoIosAddCircleOutline } from "react-icons/io";
-import { addNewItem } from '../../app/ListSlice/ListSlice';
-import { useAddNewListItemMutation } from '../../app/api/ApiSlice';
+import { addNewItem } from '../../app/ListSlice/ListSlice.js';
+import { useAddNewListItemMutation } from '../../app/api/ApiSlice.js';
 import { Bounce, toast } from 'react-toastify';
 
 

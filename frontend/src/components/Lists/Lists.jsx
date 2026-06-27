@@ -2,8 +2,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineDelete } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { deleteList } from "../../app/ListSlice/ListSlice";
-import { useDeleteListMutation } from "../../app/api/ApiSlice";
+import { deleteList } from "../../app/ListSlice/ListSlice.js";
+import { useDeleteListMutation } from "../../app/api/ApiSlice.js";
 import { Bounce, toast } from "react-toastify";
 
 function Lists({ data }) {

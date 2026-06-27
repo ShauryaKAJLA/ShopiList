@@ -1,10 +1,10 @@
 import React from 'react'
 import { IoLogOutOutline } from "react-icons/io5";
-import { useLogoutMutation } from '../../app/api/ApiSlice';
+import { useLogoutMutation } from '../../app/api/ApiSlice.js';
 import { Bounce, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { clearAllLists } from '../../app/ListSlice/ListSlice';
+import { clearAllLists } from '../../app/ListSlice/ListSlice.js';
 
 function Navbar() {
     const [logoutCall, { isLoading, isError, error }] = useLogoutMutation();

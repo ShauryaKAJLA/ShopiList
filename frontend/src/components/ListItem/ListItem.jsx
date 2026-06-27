@@ -1,9 +1,9 @@
 import React from 'react';
 import { MdDeleteOutline } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
-import { itemToggle, removeItem } from '../../app/ListSlice/ListSlice';
+import { itemToggle, removeItem } from '../../app/ListSlice/ListSlice.js';
 import { Bounce, toast } from 'react-toastify';
-import { useRemoveListItemMutation, useToggleIsBoughtMutation } from '../../app/api/ApiSlice';
+import { useRemoveListItemMutation, useToggleIsBoughtMutation } from '../../app/api/ApiSlice.js';
 
 function ListItem({ data }) {
     const dispatch = useDispatch();
