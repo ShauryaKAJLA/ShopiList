@@ -53,11 +53,13 @@ const userLogin = asyncHandler(async (req, res) => {
         secure: true,
         sameSite: 'None',
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+        domain: undefined
     }
     const options2 = {
         secure: true,
         sameSite: 'None',
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+        domain: undefined
     }
     return res.status(200).cookie("accessToken", accessToken, options).cookie("isAuthenticated", true, options2).json(new ApiResponse({ username, accessToken }, 200, "Successfully logged in"))
 })
@@ -67,11 +69,13 @@ const userLogout = asyncHandler(async (req, res) => {
         secure: true,
         sameSite: 'None',
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+        domain: undefined
     }
     const options2 = {
         secure: true,
         sameSite: 'None',
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+        domain: undefined
     }
     return res.status(200).clearCookie("accessToken", options).clearCookie("isAuthenticated", options2).json(new ApiResponse({}, 200, "Successfully logged out"))
 })
