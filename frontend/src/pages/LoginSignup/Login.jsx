@@ -5,8 +5,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useLoginMutation } from '../../app/api/ApiSlice.js'
 import { Bounce, toast } from 'react-toastify'
 function Login() {
+    const navigate = useNavigate()
     useEffect(() => {
-        const navigate = useNavigate()
         if (localStorage.getItem("isAuthenticated")) {
             navigate("/lists")
         }
