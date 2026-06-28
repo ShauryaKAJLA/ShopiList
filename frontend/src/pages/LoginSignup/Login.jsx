@@ -29,6 +29,8 @@ function Login() {
             // after successful login API call
             localStorage.setItem('isAuthenticated', 'true');
             console.log(response);
+            const { accessToken } = response.data
+            localStorage.setItem("accessToken", accessToken)
             toast.success(response.message, {
                 position: "top-right",
                 autoClose: 3000,
@@ -43,6 +45,17 @@ function Login() {
             navigate('/lists')
         } catch (err) {
             console.log(err);
+            toast.error(err.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
         }
     };
     return (

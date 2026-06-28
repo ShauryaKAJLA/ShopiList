@@ -13,6 +13,8 @@ function Navbar() {
     const handleLogout = async () => {
         try {
             const response = await logoutCall().unwrap();
+            localStorage.clear("accessToken")
+            localStorage.clear("isAuthenticated")
             toast.success(response.message, {
                 position: "top-right",
                 autoClose: 3000,

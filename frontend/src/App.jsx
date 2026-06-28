@@ -11,8 +11,8 @@ function App() {
   const navigate = useNavigate();
   useEffect(() => {
 
-    const isLogged = localStorage.getItem("isAuthenticated") === true
-    if (!isLogged) {
+    const isLogged = localStorage.getItem("isAuthenticated")
+    if (isLogged === undefined) {
       setTimeout(() => {
         navigate('/')
       })

@@ -6,13 +6,20 @@ export const ApiSlice = createApi({
     tagTypes: ["Lists"],
     endpoints: ((builder) => ({
         getAllLists: builder.query({
-            query: () => ({
-                url: "/list/getAllLists",
-                method: "GET",
-                credentials: "include",
-            }),
+            query: () => {
+                const accessToken = localStorage.getItem('accessToken');
+                return {
+                    url: "/list/getAllLists",
+                    method: "GET",
+                    credentials: "include",
+                    headers: {
+                        "Authorization": accessToken ? `Bearer ${accessToken}` : ""
+                    }
+                };
+            },
             providesTags: ["Lists"]
         }),
+
         login: builder.mutation({
             query: (data) => ({
                 url: "/user/login",
@@ -31,52 +38,89 @@ export const ApiSlice = createApi({
             })
         }),
         addNewList: builder.mutation({
-            query: (data) => ({
-                url: "/list/createNewList",
-                method: "POST",
-                credentials: "include",
-                body: { newList: data }
-            })
+            query: (data) => {
+                const accessToken = localStorage.getItem('accessToken');
+                return {
+                    url: "/list/createNewList",
+                    method: "POST",
+                    credentials: "include",
+                    body: { newList: data },
+                    headers: {
+                        "Authorization": accessToken ? `Bearer ${accessToken}` : ""
+                    }
+                }
+
+            }
         }),
         deleteList: builder.mutation({
-            query: (data) => ({
-                url: "/list/deleteList",
-                method: "POST",
-                credentials: "include",
-                body: data
-            })
+            query: (data) => {
+                const accessToken = localStorage.getItem('accessToken');
+                return {
+                    url: "/list/deleteList",
+                    method: "POST",
+                    credentials: "include",
+                    body: data,
+                    headers: {
+                        "Authorization": accessToken ? `Bearer ${accessToken}` : ""
+                    }
+                }
+            }
         }),
         addNewListItem: builder.mutation({
-            query: (data) => ({
-                url: "/list/addNewListItem",
-                method: "POST",
-                credentials: "include",
-                body: data
-            })
+            query: (data) => {
+                const accessToken = localStorage.getItem('accessToken');
+                return {
+                    url: "/list/addNewListItem",
+                    method: "POST",
+                    credentials: "include",
+                    body: data,
+                    headers: {
+                        "Authorization": accessToken ? `Bearer ${accessToken}` : ""
+                    }
+                }
+            }
         }),
         removeListItem: builder.mutation({
-            query: (data) => ({
-                url: "/list/removeListItem",
-                method: "POST",
-                credentials: "include",
-                body: data
-            })
+            query: (data) => {
+                const accessToken = localStorage.getItem('accessToken');
+                return {
+                    url: "/list/removeListItem",
+                    method: "POST",
+                    credentials: "include",
+                    body: data,
+                    headers: {
+                        "Authorization": accessToken ? `Bearer ${accessToken}` : ""
+                    }
+                }
+            }
         }),
         toggleIsBought: builder.mutation({
-            query: (data) => ({
-                url: "/list/setListItemBoughtStatus",
-                method: "PUT",
-                credentials: "include",
-                body: data
-            })
+            query: (data) => {
+                const accessToken = localStorage.getItem('accessToken');
+                return {
+                    url: "/list/setListItemBoughtStatus",
+                    method: "PUT",
+                    credentials: "include",
+                    body: data,
+                    headers: {
+                        "Authorization": accessToken ? `Bearer ${accessToken}` : ""
+                    }
+                }
+            }
         }),
         logout: builder.mutation({
-            query: (data) => ({
-                url: "/user/logout",
-                method: "POST",
-                credentials: "include",
-                body: data
-            })
+            query: (data) => {
+                const accessToken = localStorage.getItem('accessToken');
+                return {
+                    url: "/user/logout",
+                    method: "POST",
+                    credentials: "include",
+                    body: data,
+                    headers: {
+                        "Authorization": accessToken ? `Bearer ${accessToken}` : ""
+                    }
+                }
+            }
         })
     }))
 })
