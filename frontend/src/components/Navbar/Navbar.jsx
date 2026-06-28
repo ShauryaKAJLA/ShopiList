@@ -43,8 +43,8 @@ function Navbar() {
         }
     }
     const handleNavi = () => {
-        if (localStorage.getItem("isAuthenticated") === true)
-            navigate('/')
+        if (localStorage.getItem("isAuthenticated"))
+            navigate('/lists')
     }
     return (
         <div className='flex z-10  bg-[#1B1B2F] text-white w-screen h-1/14 top-0 sticky items-center  '>
